@@ -3,7 +3,7 @@ function searchBooks() {
 
         let formSearch = document.forms['searchBook'];
         let inputValue = formSearch.inputData.value;
-        new Promise(function (resolve, reject) {
+        new Promise(function (reject) {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', `https://api.itbook.store/1.0/search/${inputValue}`);
             xhr.send();
@@ -15,8 +15,15 @@ function searchBooks() {
                     reject(Error(document.querySelector('.data').innerHTML = xhr.responseText));
                 }
             };
-            formSearch.reset();
-        })
-    });
-}
-searchBooks();
+
+            promise.then(data => {
+                if (data.length > 0) {
+                    document.querySelector('.data').innerHTML = 'books found'
+                } else {
+                    document.querySelector('.data').innerText = 'no data'
+                }
+                formSearch.reset();
+            })
+        });
+    },
+    )}
